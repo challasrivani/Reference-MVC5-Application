@@ -1,0 +1,46 @@
+﻿@model Vidly.ViewModels.NewCustomerViewModel
+@{
+    ViewBag.Title = "CustomerForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add/Edit Customer</h2>
+<br />
+<br />
+@{
+    string saveorupdate= (Model.Customer == null)? "Save" : "Update";
+}
+
+@using (@Html.BeginForm(saveorupdate,"Customers"))
+{       
+        @Html.HiddenFor(m=>m.Customer.Id)
+         
+        <div class="form-group">
+            @Html.LabelFor(m => m.Customer.Name)
+            <br />
+            @Html.TextBoxFor(m => m.Customer.Name, new{@class="form-control"})
+            @Html.ValidationMessageFor(m=>m.Customer.Name)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Customer.DateOfBirth)
+            <br />
+            @Html.TextBoxFor(m => m.Customer.DateOfBirth,"{0:d MMM yyyy}", new{@class="form-control"})
+            @Html.ValidationMessageFor(m=>m.Customer.DateOfBirth)
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m=>m.Customer.MembershipType)
+            <br />
+            @Html.DropDownListFor(m=>m.Customer.MembershipType.Id,new SelectList(Model.MembershipTypes, "Id", "Name"),"Select a Membership", new {@class="form-control"})
+        </div>
+        <div class="checkbox">
+            <label>
+                @Html.CheckBoxFor(m => m.Customer.isSubscribedTNewsLetter) SubscribeToNewsLetter?
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section scripts
+{
+     @Scripts.Render("~/bundles/jqueryval")
+}
